@@ -1,24 +1,16 @@
 package routes
 
 import (
-	"encoding/csv"
 	"fmt"
 	"net/http"
 	"strings"
+
+	"github.com/bczarnobay/go-matrix/services"
 )
 
 func echoController(w http.ResponseWriter, r *http.Request) {
-	file, _, err := r.FormFile("file")
-	if err != nil {
-		w.Write([]byte(fmt.Sprintf("error %s", err.Error())))
-		return
-	}
-	defer file.Close()
-	records, err := csv.NewReader(file).ReadAll()
-	if err != nil {
-		w.Write([]byte(fmt.Sprintf("error %s", err.Error())))
-		return
-	}
+	records := readInput(w, r)
+
 	var response string
 	for _, row := range records {
 		response = fmt.Sprintf("%s%s\n", response, strings.Join(row, ","))
@@ -27,27 +19,11 @@ func echoController(w http.ResponseWriter, r *http.Request) {
 }
 
 func invertController(w http.ResponseWriter, r *http.Request) {
-	file, _, err := r.FormFile("file")
-	if err != nil {
-		w.Write([]byte(fmt.Sprintf("error %s", err.Error())))
-		return
-	}
-	defer file.Close()
-	records, err := csv.NewReader(file).ReadAll()
-	if err != nil {
-		w.Write([]byte(fmt.Sprintf("error %s", err.Error())))
-		return
-	}
+	records := readInput(w, r)
+
+	services.Invert(records)
+
 	var response string
-
-	for r := 0; r < len(records); r++ {
-		for c := 0; c < r; c++ {
-			var tmp = records[r][c]
-			records[r][c] = records[c][r]
-			records[c][r] = tmp
-		}
-	}
-
 	for _, row := range records {
 		response = fmt.Sprintf("%s%s\n", response, strings.Join(row, ","))
 	}
@@ -55,23 +31,9 @@ func invertController(w http.ResponseWriter, r *http.Request) {
 }
 
 func flattenController(w http.ResponseWriter, r *http.Request) {
-	file, _, err := r.FormFile("file")
-	if err != nil {
-		w.Write([]byte(fmt.Sprintf("error %s", err.Error())))
-		return
-	}
-	defer file.Close()
-	records, err := csv.NewReader(file).ReadAll()
-	if err != nil {
-		w.Write([]byte(fmt.Sprintf("error %s", err.Error())))
-		return
-	}
+	records := readInput(w, r)
 
-	var flat []string
-
-	for r := 0; r < len(records); r++ {
-		flat = append(flat, records[r]...)
-	}
+	flat := services.Flatten(records)
 
 	response := fmt.Sprint(strings.Join(flat, ","))
 	fmt.Fprint(w, response)

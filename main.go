@@ -1,18 +1,15 @@
 package main
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/bczarnobay/go-matrix/routes"
 )
 
-// Run with
-//		go run .
-// Send request with:
-//		curl -F 'file=@/path/matrix.csv' "localhost:8080/echo"
-
 func main() {
 	routes.Setup()
 
 	http.ListenAndServe(":8080", nil)
+	log.Println("Server is up and running on port :8080")
 }
