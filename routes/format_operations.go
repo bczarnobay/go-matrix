@@ -3,7 +3,6 @@ package routes
 import (
 	"fmt"
 	"net/http"
-	"strings"
 
 	"github.com/bczarnobay/go-matrix/services"
 )
@@ -39,8 +38,5 @@ func flattenController(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(fmt.Sprintf("%v", err.Error())))
 		return
 	}
-	flat := services.Flatten(records)
-
-	response := fmt.Sprint(strings.Join(flat, ","))
-	fmt.Fprint(w, response)
+	fmt.Fprint(w, services.Flatten(records))
 }

@@ -4,23 +4,40 @@ import (
 	"testing"
 )
 
+type testCaseMath struct {
+	name     string
+	input    [][]int
+	expected int
+}
+
 func TestSum(t *testing.T) {
-	var input = [][]int{{1, 1}, {1, 1}}
+	var testCases = []testCaseMath{
+		{"2x2 Matrix", [][]int{{1, 2}, {3, 4}}, 10},
+	}
 
-	result := Sum(input)
+	for _, test := range testCases {
+		t.Run(test.name, func(t *testing.T) {
+			result := Sum(test.input)
 
-	if result != 4 {
-		t.Errorf("Sum was incorrect. Expected 4 and got %d", result)
+			if result != test.expected {
+				t.Errorf("Sum was incorrect. Expected \n%v\n and got: \n%v\n", test.expected, test.input)
+			}
+		})
 	}
 }
 
 func TestMultiply(t *testing.T) {
-	var input = [][]int{{1, 2}, {3, 4}}
-
-	result := Multiply(input)
-
-	if result != 24 {
-		t.Errorf("Sum was incorrect. Expected 24 and got %d", result)
+	var testCases = []testCaseMath{
+		{"2x2 Matrix", [][]int{{1, 2}, {3, 4}}, 24},
 	}
 
+	for _, test := range testCases {
+		t.Run(test.name, func(t *testing.T) {
+			result := Multiply(test.input)
+
+			if result != test.expected {
+				t.Errorf("Sum was incorrect. Expected \n%v\n and got: \n%v\n", test.expected, test.input)
+			}
+		})
+	}
 }

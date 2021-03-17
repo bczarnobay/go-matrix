@@ -1,7 +1,9 @@
 package services
 
 import (
+	"fmt"
 	"strconv"
+	"strings"
 )
 
 func Invert(m [][]int) string {
@@ -16,14 +18,15 @@ func Invert(m [][]int) string {
 	return Echo(m)
 }
 
-func Flatten(m [][]int) []string {
+func Flatten(m [][]int) string {
 	var flat []string
 	for _, row := range m {
 		for _, column := range row {
 			flat = append(flat, strconv.Itoa(column))
 		}
 	}
-	return flat
+	response := fmt.Sprint(strings.Join(flat, ","))
+	return response
 }
 
 func Echo(m [][]int) string {
