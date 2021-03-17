@@ -7,6 +7,7 @@ In this project it is possible to manipulate an integer matrix to perform the su
   * [Requirements](#requirements)
   * [Curl](#curl)
   * [Tests](#tests)
+- [Caveats](#caveats)
 
 ## Installation and execution
 
@@ -96,3 +97,15 @@ To execute the tests you can run the following command from root folder:
 ```
 go test ./...
 ```
+
+### Caveats
+Some points were missing on this project implementation, this are some open points to be worked on:
+
+#### Requirements
+- validate if all characters are valid (integers)
+- convert matrix to integer before performing operations
+- convert output from integer back to string
+
+#### Tests
+- extend services test to more robust scenarios
+- extend e2e tests to consider other scenarios rather than only input validations
