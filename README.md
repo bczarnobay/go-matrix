@@ -14,7 +14,10 @@ In this project it is possible to manipulate an integer matrix to perform the su
 To setup the project all you need to do is clone this repository in your machine.
 
 1. To execute the application, please make sure you have Go installed on your machine and that you have port 8080 available.
-2. Go to the root folder of this repository on your machine and run **go run .**
+2. Go to the root folder of this repository on your machine and run 
+```
+go run .
+```
 
 ## API
 
