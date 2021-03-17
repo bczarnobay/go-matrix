@@ -102,7 +102,7 @@ go test ./...
 ```
 
 ### Caveats
-Some points were missing on this project implementation, this are some open points to be worked on:
+Some points were missing on this project implementation, these are some open points to be worked on:
 
 #### Requirements
 - validate if all characters are valid (integers)
