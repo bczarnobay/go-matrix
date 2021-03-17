@@ -6,7 +6,7 @@ import (
 )
 
 func TestInvert(t *testing.T) {
-	var input = [][]string{{"1", "2"}, {"3", "4"}}
+	var input = [][]int{{1, 2}, {3, 4}}
 	var expected = [][]string{{"1", "3"}, {"2", "4"}}
 
 	Invert(input)
@@ -17,7 +17,7 @@ func TestInvert(t *testing.T) {
 }
 
 func TestFlatten(t *testing.T) {
-	var input = [][]string{{"1", "2"}, {"3", "4"}}
+	var input = [][]int{{1, 2}, {3, 4}}
 	var expected = []string{"1", "2", "3", "4"}
 
 	result := Flatten(input)

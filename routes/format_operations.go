@@ -9,30 +9,36 @@ import (
 )
 
 func echoController(w http.ResponseWriter, r *http.Request) {
-	records := readInput(w, r)
+	records, err := readInput(w, r)
 
-	var response string
-	for _, row := range records {
-		response = fmt.Sprintf("%s%s\n", response, strings.Join(row, ","))
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(fmt.Sprintf("%v", err.Error())))
+		return
 	}
-	fmt.Fprint(w, response)
+
+	fmt.Fprint(w, services.Echo(records))
 }
 
 func invertController(w http.ResponseWriter, r *http.Request) {
-	records := readInput(w, r)
+	records, err := readInput(w, r)
 
-	services.Invert(records)
-
-	var response string
-	for _, row := range records {
-		response = fmt.Sprintf("%s%s\n", response, strings.Join(row, ","))
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(fmt.Sprintf("%v", err.Error())))
+		return
 	}
-	fmt.Fprint(w, response)
+
+	fmt.Fprint(w, services.Invert(records))
 }
 
 func flattenController(w http.ResponseWriter, r *http.Request) {
-	records := readInput(w, r)
-
+	records, err := readInput(w, r)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(fmt.Sprintf("%v", err.Error())))
+		return
+	}
 	flat := services.Flatten(records)
 
 	response := fmt.Sprint(strings.Join(flat, ","))

@@ -1,26 +1,21 @@
 package services
 
 import (
-	"strconv"
 	"sync"
 )
 
-func Sum(m [][]string) int {
+func Sum(m [][]int) int {
 	var sum int
 	var wg sync.WaitGroup
 	var lock sync.Mutex
 
 	for _, row := range m {
 		wg.Add(1)
-		go func(row []string, wg *sync.WaitGroup) {
+		go func(row []int, wg *sync.WaitGroup) {
 			defer wg.Done()
 			for _, num := range row {
-				value, err := strconv.Atoi(num)
-				if err != nil {
-					return
-				}
 				lock.Lock()
-				sum += value
+				sum += num
 				lock.Unlock()
 			}
 		}(row, &wg)
@@ -30,7 +25,7 @@ func Sum(m [][]string) int {
 	return sum
 }
 
-func Multiply(m [][]string) int {
+func Multiply(m [][]int) int {
 	result := 1
 
 	var wg sync.WaitGroup
@@ -38,16 +33,12 @@ func Multiply(m [][]string) int {
 
 	for _, row := range m {
 		wg.Add(1)
-		go func(row []string, wg *sync.WaitGroup) {
+		go func(row []int, wg *sync.WaitGroup) {
 			defer wg.Done()
 
 			for _, num := range row {
-				value, err := strconv.Atoi(num)
-				if err != nil {
-					return
-				}
 				lock.Lock()
-				result *= value
+				result *= num
 				lock.Unlock()
 			}
 		}(row, &wg)

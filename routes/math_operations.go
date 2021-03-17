@@ -8,7 +8,12 @@ import (
 )
 
 func sumController(w http.ResponseWriter, r *http.Request) {
-	records := readInput(w, r)
+	records, err := readInput(w, r)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(fmt.Sprintf("%v", err.Error())))
+		return
+	}
 
 	result := services.Sum(records)
 
@@ -17,7 +22,12 @@ func sumController(w http.ResponseWriter, r *http.Request) {
 }
 
 func multiplyController(w http.ResponseWriter, r *http.Request) {
-	records := readInput(w, r)
+	records, err := readInput(w, r)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write([]byte(fmt.Sprintf("%v", err.Error())))
+		return
+	}
 
 	result := services.Multiply(records)
 

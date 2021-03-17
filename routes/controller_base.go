@@ -3,62 +3,54 @@ package routes
 import (
 	"encoding/csv"
 	"errors"
-	"fmt"
 	"net/http"
+	"strconv"
 )
 
-func readInput(w http.ResponseWriter, r *http.Request) [][]string {
-
+func readInput(w http.ResponseWriter, r *http.Request) ([][]int, error) {
 	if r.Method != http.MethodPost {
-		w.WriteHeader(http.StatusNotFound)
-		w.Write([]byte(fmt.Sprintf("%v", errors.New(NOT_ALLOWED))))
-		return nil
+		return nil, errors.New(NOT_ALLOWED)
 	}
 	file, _, err := r.FormFile("file")
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(fmt.Sprintf("%v", errors.New(INVALID_INPUT_TYPE))))
-		return nil
+		return nil, errors.New(INVALID_INPUT_TYPE)
 	}
 	defer file.Close()
 	records, err := csv.NewReader(file).ReadAll()
 	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(fmt.Sprintf("%v", err.Error())))
-		return nil
+		return nil, err
 	}
 
 	if len(records) <= 1 {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(fmt.Sprintf("%v", errors.New(INVALID_SIZE))))
-		return nil
+		return nil, errors.New(INVALID_SIZE)
 	}
 
 	if len(records) != len(records[0]) {
-		w.WriteHeader(http.StatusBadRequest)
-		w.Write([]byte(fmt.Sprintf("%v", errors.New(NOT_QUADRATIC))))
-		return nil
+		return nil, errors.New(NOT_QUADRATIC)
 	}
 
-	// intMatrix, err := convertMatrixToInt(records)
-	// if err != nil {
-	// 	w.WriteHeader(http.StatusBadRequest)
-	// 	w.Write([]byte(fmt.Sprintf(`{"message":  "%s"}`, err.Error())))
-	// }
+	intMatrix, err := convertMatrixToInt(records)
+	if err != nil {
+		return nil, err
+	}
 
-	return records
+	return intMatrix, nil
 }
 
-// func convertMatrixToInt(m [][]string) ([][]int, error) {
-// 	var converted [][]int
-// 	for r := 0; r < len(m); r++ {
-// 		for c := 0; c < r; c++ {
-// 			num, err := strconv.Atoi(m[r][c])
-// 			if err != nil {
-// 				return nil, errors.New(INVALID_CHARACTERS)
-// 			}
-// 			converted[r][c] = num
-// 		}
-// 	}
-// 	return converted, nil
-// }
+func convertMatrixToInt(m [][]string) ([][]int, error) {
+	var converted [][]int
+
+	for _, row := range m {
+		var intRow []int
+		for _, column := range row {
+			num, err := strconv.Atoi(column)
+			if err != nil {
+				return nil, errors.New(INVALID_CHARACTERS)
+			}
+			intRow = append(intRow, num)
+		}
+		converted = append(converted, intRow)
+	}
+
+	return converted, nil
+}

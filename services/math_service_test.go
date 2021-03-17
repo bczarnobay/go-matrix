@@ -5,7 +5,7 @@ import (
 )
 
 func TestSum(t *testing.T) {
-	var input = [][]string{{"1", "1"}, {"1", "1"}}
+	var input = [][]int{{1, 1}, {1, 1}}
 
 	result := Sum(input)
 
@@ -15,7 +15,7 @@ func TestSum(t *testing.T) {
 }
 
 func TestMultiply(t *testing.T) {
-	var input = [][]string{{"1", "2"}, {"3", "4"}}
+	var input = [][]int{{1, 2}, {3, 4}}
 
 	result := Multiply(input)
 
