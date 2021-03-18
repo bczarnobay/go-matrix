@@ -105,10 +105,9 @@ go test ./...
 Some points were missing on this project implementation, these are some open points to be worked on:
 
 #### Requirements
-- validate if all characters are valid (integers)
-- convert matrix to integer before performing operations
-- convert output from integer back to string
+- specific validations for size, character type, etc in services functions. Main validation logic is implemented in routes package.
+- logging output for operations with errors, time of each execution and other information
 
 #### Tests
-- extend services test to more robust scenarios
+- extend services test to include those validations missing
 - extend e2e tests to consider other scenarios rather than only input validations

@@ -5,6 +5,12 @@ import (
 )
 
 func Sum(m [][]int) int {
+	if len(m) == 0 {
+		return 0
+	} else if len(m[0]) == 0 {
+		return 0
+	}
+
 	var sum int
 	var wg sync.WaitGroup
 	var lock sync.Mutex
@@ -21,13 +27,17 @@ func Sum(m [][]int) int {
 		}(row, &wg)
 	}
 	wg.Wait()
-
 	return sum
 }
 
 func Multiply(m [][]int) int {
-	result := 1
+	if len(m) == 0 {
+		return 0
+	} else if len(m[0]) == 0 {
+		return 0
+	}
 
+	result := 1
 	var wg sync.WaitGroup
 	var lock sync.Mutex
 

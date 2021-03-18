@@ -15,8 +15,8 @@ func echoController(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(fmt.Sprintf("%v", err.Error())))
 		return
 	}
-
-	fmt.Fprint(w, services.Echo(records))
+	response, _ := services.Echo(records)
+	fmt.Fprint(w, response)
 }
 
 func invertController(w http.ResponseWriter, r *http.Request) {
@@ -27,8 +27,8 @@ func invertController(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte(fmt.Sprintf("%v", err.Error())))
 		return
 	}
-
-	fmt.Fprint(w, services.Invert(records))
+	response, _ := services.Invert(records)
+	fmt.Fprint(w, response)
 }
 
 func flattenController(w http.ResponseWriter, r *http.Request) {
